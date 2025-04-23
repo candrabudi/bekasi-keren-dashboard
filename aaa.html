@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SLA Summary Card</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+        .card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            width: 100%;
+            max-width: 600px;
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            box-sizing: border-box;
+        }
+        .left-section, .right-section {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .total-calls-label {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 5px;
+        }
+        .total-calls {
+            font-size: clamp(2rem, 6vw, 3rem);
+            font-weight: bold;
+        }
+        .call-status {
+            margin: 8px 0;
+            display: flex;
+            align-items: center;
+            font-size: clamp(0.9rem, 2.5vw, 1rem);
+            width: 100%;
+            max-width: 220px;
+            justify-content: space-between;
+        }
+        .call-status img {
+            width: clamp(16px, 3vw, 20px);
+            margin-right: 8px;
+        }
+        .sla-label {
+            font-size: clamp(1rem, 3vw, 1.2rem);
+            margin-bottom: 10px;
+            align-self: flex-end;
+        }
+        .speedometer {
+            position: relative;
+            width: clamp(120px, 40vw, 150px);
+            height: clamp(120px, 40vw, 150px);
+        }
+        .speedometer svg {
+            width: 100%;
+            height: 100%;
+        }
+        .speedometer circle {
+            fill: none;
+            stroke-width: 10;
+            stroke: #ffffff33;
+            transform: rotate(-90deg);
+            transform-origin: center;
+        }
+        .speedometer .progress {
+            stroke: #ffffff;
+            stroke-dasharray: 0 1000;
+            transition: stroke-dasharray 1s ease;
+        }
+        .speedometer .text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(1.2rem, 4vw, 1.5rem);
+            font-weight: bold;
+        }
+        .speedometer .label {
+            position: absolute;
+            top: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: clamp(0.7rem, 2vw, 0.8rem);
+        }
+        .speedometer .range {
+            position: absolute;
+            bottom: 5px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            font-size: clamp(0.8rem, 2.5vw, 0.9rem);
+        }
+        @media (min-width: 768px) {
+            .card {
+                flex-direction: row;
+                justify-content: space-between;
+                padding: 25px;
+            }
+            .left-section {
+                width: 40%;
+                align-items: flex-start;
+            }
+            .right-section {
+                width: 55%;
+            }
+            .sla-label {
+                align-self: flex-end;
+            }
+        }
+        @media (max-width: 480px) {
+            .card {
+                padding: 15px;
+            }
+            .total-calls {
+                font-size: clamp(1.5rem, 5vw, 2.5rem);
+            }
+            .speedometer {
+                width: 120px;
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <div class="left-section">
+            <div>
+                <h2 class="total-calls-label">TOTAL PANGGILAN</h2>
+                <div class="total-calls">0</div>
+            </div>
+            <div>
+                <div class="call-status">
+                    <div style="display: flex; align-items: center;">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/chat.png" alt="Answered">
+                        <span>Terjawab</span>
+                    </div>
+                    <span>0</span>
+                </div>
+                <div class="call-status">
+                    <div style="display: flex; align-items: center;">
+                        <img src="https://img.icons8.com/ios-filled/50/ffffff/user.png" alt="Not Answered">
+                        <span>Tak Terjawab</span>
+                    </div>
+                    <span>0</span>
+                </div>
+            </div>
+        </div>
+        <div class="right-section">
+            <div class="sla-label">SLA</div>
+            <div class="speedometer">
+                <svg viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" />
+                    <circle class="progress" cx="50" cy="50" r="40" stroke-dasharray="0 1000" />
+                </svg>
+                <div class="label">Speedometer SLA</div>
+                <div class="text">0 %</div>
+                <div class="range">
+                    <span>0</span>
+                    <span>100</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
