@@ -47,11 +47,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/backstreet/call-center/call-records', [CallCenterRecordController::class, 'index'])->name('backstreet.callrecords.index');
 
-    Route::get('/backstreet/menus', [MenuController::class, 'index'])->name('menus.index');
-    Route::post('/backstreet/menus/store', [MenuController::class, 'store'])->name('menus.store');
-    Route::post('/backstreet/menus/update/{id}', [MenuController::class, 'update'])->name('menus.update');
-    Route::post('/backstreet/menus/delete/{id}', [MenuController::class, 'destroy'])->name('menus.destroy');
-
     Route::get('/backstreet/user-managements/roles', [RoleController::class, 'index'])->name('roles.index');
     Route::get('/backstreet/user-managements/roles/create', [RoleController::class, 'create'])->name('roles.create');
     Route::post('/backstreet/user-managements/roles', [RoleController::class, 'store'])->name('roles.store');
