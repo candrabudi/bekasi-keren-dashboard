@@ -75,7 +75,7 @@
                     <div id="kt_toolbar_container" class=" container-xxl  d-flex flex-stack flex-wrap">
                         <div class="page-title d-flex flex-column">
                             <h1 class="d-flex text-white fw-bold fs-2qx my-1 me-5">
-                                Hallo, shadowmitsu
+                                @yield('page-title')
                             </h1>
 
                             @yield('breadcrumb')

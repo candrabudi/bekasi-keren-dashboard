@@ -138,31 +138,29 @@ class DashboardController extends Controller
 
     public function chartDataPerJam()
     {
-        $today = \Carbon\Carbon::today();
         $user = auth()->user();
         $departmentId = $user->detail->department_id ?? null;
-
-        $ticketPerHour = DB::table('tickets')
-            ->join('department_tickets', 'tickets.id', '=', 'department_tickets.ticket_id')
-            ->select(DB::raw('HOUR(tickets.created_at) as hour'), DB::raw('COUNT(*) as total'))
-            ->whereDate('tickets.created_at', $today);
-
+    
+        $ticketPerHourQuery = DB::table('tickets')
+            ->selectRaw('HOUR(tickets.created_at) as hour, COUNT(*) as total')
+            ->leftJoin('department_tickets', 'tickets.id', '=', 'department_tickets.ticket_id');
+    
         if ($departmentId) {
-            $ticketPerHour->where('department_tickets.department_id', $departmentId);
+            $ticketPerHourQuery->where('department_tickets.department_id', $departmentId);
         }
-
-        $ticketPerHour = $ticketPerHour
+    
+        $ticketPerHour = $ticketPerHourQuery
             ->groupBy(DB::raw('HOUR(tickets.created_at)'))
             ->orderBy('hour')
             ->get();
-
+    
         $hours = range(0, 23);
         $data = [];
-
+    
         foreach ($hours as $h) {
             $data[] = $ticketPerHour->firstWhere('hour', $h)->total ?? 0;
         }
-
+    
         return response()->json([
             'labels' => array_map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00', $hours),
             'series' => $data
@@ -176,11 +174,9 @@ class DashboardController extends Controller
         $departmentId = $user->detail->department_id ?? null;
 
         $query = DB::table('call_center_records')
-            ->join('users', 'call_center_records.created_by', '=', 'users.id')
-            ->join('user_details', 'users.id', '=', 'user_details.user_id')
             ->select(
                 DB::raw("HOUR(datetime_entry_queue) as hour"),
-                'status',
+                'call_center_records.status',
                 DB::raw("COUNT(*) as total")
             )
             ->whereDate('datetime_entry_queue', $date);
@@ -190,11 +186,11 @@ class DashboardController extends Controller
         }
 
         $data = $query
-            ->groupBy(DB::raw("HOUR(datetime_entry_queue)"), 'status')
+            ->groupBy(DB::raw("HOUR(datetime_entry_queue)"), 'call_center_records.status')
             ->orderBy('hour')
             ->get();
 
-        $hours = range(0, 23);
+        $hours = range(0, 24);
         $statuses = $data->pluck('status')->unique();
         $series = [];
 
@@ -212,9 +208,6 @@ class DashboardController extends Controller
             'categories' => array_map(fn ($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00', $hours),
         ]);
     }
-
-
-
 
     public function updateReportCrd()
     {

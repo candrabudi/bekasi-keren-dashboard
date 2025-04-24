@@ -88,7 +88,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Top 5 Ticket Categories</h3>
                     <div class="card-toolbar">
-                        <a href="" class="btn btn-sm btn-light-primary">
+                        <a href="{{ route('backstreet.tickets.categories.index') }}" class="btn btn-sm btn-light-primary">
                             Lihat Semua
                         </a>
                     </div>

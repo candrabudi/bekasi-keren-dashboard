@@ -9,6 +9,7 @@ use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReportDepartmentController;
 use App\Http\Controllers\RoleAccessController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\TicketCategoryController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\WallboardCallCenterController;
@@ -28,53 +29,83 @@ Route::get('/backstreet/call-center/reports/departments', [ReportDepartmentContr
 Route::get('/updateReportCrd', [DashboardController::class, 'updateReportCrd']);
 Route::middleware(['auth'])->group(function () {
 
+    Route::get('/backstreet/get-villages', [TicketController::class, 'getVillages'])->name('get.villages');
+
+
     Route::get('/backstreet/wallboards/call-center', [DashboardCallCenterController::class, 'wallboardCallCenter'])->name('backstreet.wallboards.callcenter');
     Route::get('/backstreet/dashboards/call-center', [DashboardController::class, 'dashboardCallCenter'])->name('backstreet.dashboards.callcenter');
-    
-    Route::get('/backstreet/wallboard/get-summary-all', [WallboardCallCenterController::class, 'wallBoardGetSummaryCall']);
-    Route::get('/backstreet/wallboard/get-summary-insident', [WallboardCallCenterController::class, 'getSummaryInsiden']);
-    Route::get('/backstreet/wallboard/get-top-categories', [WallboardCallCenterController::class, 'getTopCategories']);
-    Route::get('/backstreet/wallboard/get-online-department', [WallboardCallCenterController::class, 'getOnlineDepartment']);
-    Route::get('/backstreet/wallboard/get-top-area', [WallboardCallCenterController::class, 'getTopArea']);
+
+    Route::prefix('/backstreet/wallboard')->controller(WallboardCallCenterController::class)->group(function () {
+        Route::get('/get-summary-all', 'wallBoardGetSummaryCall');
+        Route::get('/get-summary-insident', 'getSummaryInsiden');
+        Route::get('/get-top-categories', 'getTopCategories');
+        Route::get('/get-online-department', 'getOnlineDepartment');
+        Route::get('/get-top-area', 'getTopArea');
+    });
+
+
+
     Route::get('/dashboard/chart/tickets-per-hour', [DashboardController::class, 'chartDataPerJam'])->name('dashboard.chart.tickets-per-hour');
     Route::get('/dashboard/call-status-chart-data', [DashboardController::class, 'callStatusChartData']);
     Route::get('/tickets/by-district', [TicketController::class, 'getByDistrict']);
 
     Route::get('/updateTickets', [TicketController::class, 'updateTickets'])->name('backstreet.tickets.updateTickets');
-    Route::get('/backstreet/call-center/insidents', [TicketController::class, 'index'])->name('backstreet.tickets.index');
-    Route::get('/backstreet/call-center/insidents/{a}', [TicketController::class, 'detail'])->name('backstreet.tickets.detail');
-    Route::get('/backstreet/get-villages', [TicketController::class, 'getVillages'])->name('get.villages');
 
-    Route::get('/backstreet/call-center/call-records', [CallCenterRecordController::class, 'index'])->name('backstreet.callrecords.index');
+    Route::prefix('/backstreet/call-center')->group(function () {
+        Route::controller(TicketController::class)->group(function () {
+            Route::get('/insidents', 'index')->name('backstreet.tickets.index');
+            Route::get('/insidents/{a}', 'detail')->name('backstreet.tickets.detail');
+        });
+        
+        Route::controller(TicketCategoryController::class)->group(function () {
+            Route::get('/categories', 'index')->name('backstreet.tickets.categories.index');
+            Route::get('/categories/data', 'getData')->name('backstreet.tickets.categories.data');
+        });
+        
+        Route::controller(CallCenterRecordController::class)->group(function () {
+            Route::get('/call-records', 'index')->name('backstreet.callrecords.index');
+        });
+    });
 
-    Route::get('/backstreet/user-managements/roles', [RoleController::class, 'index'])->name('roles.index');
-    Route::get('/backstreet/user-managements/roles/create', [RoleController::class, 'create'])->name('roles.create');
-    Route::post('/backstreet/user-managements/roles', [RoleController::class, 'store'])->name('roles.store');
-    Route::get('/backstreet/user-managements/roles/{role}', [RoleController::class, 'show'])->name('roles.show');
-    Route::get('/backstreet/user-managements/roles/{role}/edit', [RoleController::class, 'edit'])->name('roles.edit');
-    Route::put('/backstreet/user-managements/roles/{role}', [RoleController::class, 'update'])->name('roles.update');
-    Route::delete('/backstreet/user-managements/roles/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
 
-    Route::get('/backstreet/user-managements/users', [UserManagementController::class, 'index'])->name('backstreet.users.index');
-    Route::get('/backstreet/user-managements/users/create', [UserManagementController::class, 'create'])->name('backstreet.users.create');
-    Route::post('/backstreet/user-managements/users/store', [UserManagementController::class, 'store'])->name('backstreet.users.store');
-    Route::get('/backstreet/user-managements/users/{a}/edit', [UserManagementController::class, 'edit'])->name('backstreet.users.edit');
-    Route::put('/backstreet/user-managements/users/{a}/update', [UserManagementController::class, 'update'])->name('backstreet.users.update');
-    Route::delete('/backstreet/user-managements/users/{a}/delete', [UserManagementController::class, 'destroy'])->name('backstreet.users.destroy');
-
-    Route::get('/backstreet/user-managements/menus', [MenuController::class, 'index'])->name('menus.index');
-    Route::get('/backstreet/user-managements/menus/create', [MenuController::class, 'create'])->name('menus.create');
-    Route::post('/backstreet/user-managements/menus', [MenuController::class, 'store'])->name('menus.store');
-    Route::get('/backstreet/user-managements/menus/{menu}', [MenuController::class, 'show'])->name('menus.show');
-    Route::get('/backstreet/user-managements/menus/{menu}/edit', [MenuController::class, 'edit'])->name('menus.edit');
-    Route::put('/backstreet/user-managements/menus/{menu}', [MenuController::class, 'update'])->name('menus.update');
-    Route::delete('/backstreet/user-managements/menus/{menu}', [MenuController::class, 'destroy'])->name('menus.destroy');
+    Route::prefix('/backstreet/user-managements')->group(function () {
+        Route::controller(RoleController::class)->prefix('roles')->name('roles.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{role}', 'show')->name('show');
+            Route::get('/{role}/edit', 'edit')->name('edit');
+            Route::put('/{role}', 'update')->name('update');
+            Route::delete('/{role}', 'destroy')->name('destroy');
+        });
+    
+        Route::controller(UserManagementController::class)->prefix('users')->name('backstreet.users.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/store', 'store')->name('store');
+            Route::get('/{a}/edit', 'edit')->name('edit');
+            Route::put('/{a}/update', 'update')->name('update');
+            Route::delete('/{a}/delete', 'destroy')->name('destroy');
+        });
+    
+        Route::controller(MenuController::class)->prefix('menus')->name('menus.')->group(function () {
+            Route::get('/', 'index')->name('index');
+            Route::get('/create', 'create')->name('create');
+            Route::post('/', 'store')->name('store');
+            Route::get('/{menu}', 'show')->name('show');
+            Route::get('/{menu}/edit', 'edit')->name('edit');
+            Route::put('/{menu}', 'update')->name('update');
+            Route::delete('/{menu}', 'destroy')->name('destroy');
+        });    
+    });
+    
 
     Route::get('/roles/{role}/access', [RoleAccessController::class, 'edit'])
         ->name('roles.access');
 
     Route::post('/roles/{role}/access', [RoleAccessController::class, 'update'])
         ->name('roles.access.update');
+
     // Route::get('/roles/{role}/access', [RoleAccessController::class, 'edit'])
     //     ->name('roles.access')
     //     ->middleware(['check.menu.permission:Roles,read']);

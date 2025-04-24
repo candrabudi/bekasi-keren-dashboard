@@ -8,6 +8,32 @@ use Illuminate\Database\Eloquent\Model;
 class Ticket extends Model
 {
     use HasFactory;
+    protected $fillable = [
+        'ticket',
+        'channel_id',
+        'category',
+        'category_id',
+        'status',
+        'status_name',
+        'call_type',
+        'call_type_name',
+        'caller_id',
+        'phone',
+        'phone_unmask',
+        'caller',
+        'created_by',
+        'address',
+        'location',
+        'district_id',
+        'district',
+        'subdistrict_id',
+        'subdistrict',
+        'notes',
+        'description',
+        'created_at',
+        'updated_at',
+    ];
+    
 
     public function departmentTickets()
     {
