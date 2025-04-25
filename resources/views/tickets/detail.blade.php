@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('page-title', 'Data Ticket ' . $ticket->ticket)
+@section('title', 'Detail Insiden')
+@section('page-title', 'Data Insiden ' . $ticket->ticket)
 @section('breadcrumb')
     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
         <li class="breadcrumb-item text-white opacity-75">
@@ -28,26 +29,79 @@
     </ul>
 @endsection
 @section('content')
+    <style>
+        .timeline {
+            padding-left: 28px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 16px;
+        }
+
+        .timeline-point {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            border: 2px solid #FFFFFF;
+            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+            position: absolute;
+            left: -22px;
+            top: 4px;
+        }
+
+        .timeline-point.status-99 {
+            background-color: #10B981;
+        }
+
+        /* Selesai */
+        .timeline-point.status-1 {
+            background-color: #3B82F6;
+        }
+
+        /* Aktif */
+        .timeline-point.status-0 {
+            background-color: #6B7280;
+        }
+
+        /* Default */
+        .status-badge {
+            background: linear-gradient(90deg, #FCD34D, #FBBF24);
+            color: #1F2937;
+            font-weight: 500;
+        }
+
+        .detail-item {
+            flex: 1;
+            min-width: 120px;
+        }
+
+        @media (max-width: 640px) {
+            .timeline {
+                padding-left: 24px;
+            }
+
+            .timeline-point {
+                width: 8px;
+                height: 8px;
+                left: -20px;
+                top: 3px;
+            }
+
+            .detail-item {
+                min-width: 100px;
+            }
+        }
+    </style>
+
     <div class="d-flex flex-column flex-lg-row">
-        <!--begin::Sidebar-->
         <div class="flex-column flex-lg-row-auto w-lg-250px w-xl-350px mb-10">
-
-            <!--begin::Card-->
             <div class="card mb-5 mb-xl-8">
-                <!--begin::Card body-->
                 <div class="card-body">
-                    <!--begin::Summary-->
-
-
-                    <!--begin::User Info-->
                     <div class="d-flex flex-center flex-column py-5">
-                        <!--begin::Avatar-->
                         <div class="symbol symbol-100px symbol-circle mb-7">
-                            <img src="../../../assets/media/avatars/300-6.jpg" alt="image">
+                            <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="image">
                         </div>
-                        <!--end::Avatar-->
-
-                        <!--begin::Name-->
                         <p class="fs-3 text-gray-800 text-hover-primary fw-bold mb-3">
                             {{ $ticket->caller != '-' ? $ticket->caller : 'Unknown' }}
                         </p>
@@ -103,7 +157,7 @@
                     <div class="card pt-4 mb-6 mb-xl-9">
                         <div class="card-header border-0">
                             <div class="card-title">
-                                <h2>Department Ticket</h2>
+                                <h2>Department Insiden</h2>
                             </div>
                         </div>
                         <div class="card-body pt-0 pb-5">
@@ -147,7 +201,7 @@
                     <div class="card pt-4 mb-6 mb-xl-9">
                         <div class="card-header border-0">
                             <div class="card-title">
-                                <h2>Ticket Logs</h2>
+                                <h2>Insiden Logs</h2>
                             </div>
                         </div>
                         <div class="card-body py-0">
@@ -196,6 +250,77 @@
                                 </table>
                             </div>
                         </div>
+                    </div>
+
+                    <div class="row">
+                        @foreach ($departmentReports as $dreport)
+                            
+                            <div class="col-md-6 mt-4">
+                                <div class="card rounded-xl p-4 sm:p-6">
+                                    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
+                                        <span class="px-3 py-1 text-xs sm:text-sm font-medium status-badge rounded-full">{{ $dreport->status_name }}</span>
+                                    </div>
+                                    <div class="row g-4 mb-4">
+                                        <div class="col-12 col-md-6">
+                                            <div class="detail-item">
+                                                <p class="text-muted small">Report ID</p>
+                                                <p class="fw-medium">{{ $dreport->report_id }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6">
+                                            <div class="detail-item">
+                                                <p class="text-muted small">Department</p>
+                                                <p class="fw-medium">{{ $dreport->department }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="detail-item">
+                                                <p class="text-muted small">Created By</p>
+                                                <p class="fw-medium">User {{ $dreport->created_by }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="detail-item">
+                                                <p class="text-muted small">Created At</p>
+                                                <p class="fw-medium">{{ $dreport->created_at }}</p>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="detail-item">
+                                                <p class="text-muted small">Updated At</p>
+                                                <p class="fw-medium">{{ $dreport->updated_at }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+        
+        
+                                    <div class="mb-4">
+                                        <p class="text-xs sm:text-sm text-gray-500">Description</p>
+                                        <p class="text-gray-700 text-sm sm:text-base">{{ $dreport->description }}</p>
+                                    </div>
+                                    <!-- Timeline -->
+                                    <div>
+                                        <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">Activity Log</h3>
+                                        <ul class="timeline">
+                                            @foreach ($dreport->departmentTicketLogs as $dreportlog)    
+                                                <li class="timeline-item">
+                                                    <span class="timeline-point status-99"></span>
+                                                    <div class="timeline-event">
+                                                        <div class="timeline-header">
+                                                            <h6 class="text-sm sm:text-base font-semibold text-gray-900 mb-0">{{ $dreportlog->status_name ? $dreportlog->status_name : '-' }}</h6>
+                                                            <small class="text-xs sm:text-sm text-gray-500">{{ $dreportlog->updated_at }}</small>
+                                                        </div>
+                                                        <p class="text-gray-600 text-sm mt-2">Notes: {{ $dreportlog->notes }}
+                                                        </p>
+                                                        <p class="text-gray-600 text-sm mt-1">By: User {{ $dreport->created_by }}</p>
+                                                    </div>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

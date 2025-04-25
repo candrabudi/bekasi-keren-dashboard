@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Department;
+use App\Models\DepartmentReport;
 use App\Models\DepartmentTicket;
 use App\Models\District;
 use App\Models\Ticket;
@@ -108,7 +109,12 @@ class TicketController extends Controller
             return redirect()->route('backstreet.tickets.index')->with('error', 'Sorry no data found '. $a);
         }
 
-        return view('tickets.detail', compact('ticket'));
+        $departmentReports = DepartmentReport::where('ticket', $ticket->ticket)
+            ->with('departmentTicketLogs')
+            ->get();
+
+            // return $departmentReports;
+        return view('tickets.detail', compact('ticket', 'departmentReports'));
     }
     
     public function getVillages(Request $request)
