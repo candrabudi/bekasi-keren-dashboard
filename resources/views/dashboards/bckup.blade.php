@@ -38,62 +38,6 @@
 @section('content')
     <div class="row">
         <div class="col">
-
-            <div class="card bg-primary text-white p-4">
-                <div class="row mb-4">
-                    <div class="col-md-7 d-flex align-items-center">
-                        <h4 class="mb-0">
-                            <i class="fas fa-info-circle me-2"></i>
-                            Total Panggilan
-                        </h4>
-                    </div>
-                    <div class="col-md-5 d-flex align-items-center justify-content-end">
-                        <h4 class="fw-bold mb-0">SLA</h4>
-                    </div>
-                </div>
-    
-                <div class="row">
-                    <div class="col-md-12 mb-4">
-                        <div class="row align-items-center">
-                            <div class="col-md-7 text-start">
-                                <div class="fs-1 fw-bold" style="font-size: 5.5rem !important;">166</div>
-                            </div>
-                            <div class="col-md-5 text-center">
-                                <div id="slaSpeedometer">
-                                    <!-- Simulasi Speedometer Placeholder -->
-                                    <svg class="speedometer" width="150" height="80">
-                                        <text x="75" y="45" text-anchor="middle" fill="#ccc" font-size="24"
-                                            font-weight="bold">49.4%</text>
-                                    </svg>
-                                </div>
-                                <div class="fw-bold fs-6 mt-2">49.4%</div>
-                            </div>
-                        </div>
-                    </div>
-    
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-comment-alt me-2"></i>
-                                    <span class="fs-7">Terjawab</span>
-                                </div>
-                                <div class="fs-1 fw-semibold">82</div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="d-flex align-items-center mb-2">
-                                    <i class="fas fa-times me-2"></i>
-                                    <span class="fs-7">Tak Terjawab</span>
-                                </div>
-                                <div class="fs-1 fw-semibold">84</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col">
             <div class="card card-dashed flex-center min-w-175px my-3 p-6">
                 <span class="fs-4 fw-semibold text-info pb-1 px-2">New Reports</span>
                 <span class="fs-lg-2tx fw-bold d-flex justify-content-center">
@@ -144,7 +88,7 @@
                 <div class="card-header">
                     <h3 class="card-title">Top 5 Ticket Categories</h3>
                     <div class="card-toolbar">
-                        <a href="" class="btn btn-sm btn-light-primary">
+                        <a href="{{ route('backstreet.tickets.categories.index') }}" class="btn btn-sm btn-light-primary">
                             Lihat Semua
                         </a>
                     </div>

@@ -29,11 +29,19 @@ Route::get('/backstreet/call-center/reports/departments', [ReportDepartmentContr
 Route::get('/updateReportCrd', [DashboardController::class, 'updateReportCrd']);
 Route::middleware(['auth'])->group(function () {
 
-    Route::get('/backstreet/get-villages', [TicketController::class, 'getVillages'])->name('get.villages');
+    Route::get('/backstreet/get-villages', action: [TicketController::class, 'getVillages'])->name('get.villages');
 
 
     Route::get('/backstreet/wallboards/call-center', [DashboardCallCenterController::class, 'wallboardCallCenter'])->name('backstreet.wallboards.callcenter');
-    Route::get('/backstreet/dashboards/call-center', [DashboardController::class, 'dashboardCallCenter'])->name('backstreet.dashboards.callcenter');
+
+    Route::get('/backstreet/dashboards/call-center', [DashboardCallCenterController::class, 'dashboardCallCenter'])->name('backstreet.dashboards.callcenter');
+    Route::get('/backstreet/dashboards/call-center/count-reports', [DashboardCallCenterController::class, 'countReports'])->name('backstreet.dashboards.callcenter.countreports');
+    Route::get('/backstreet/dashboards/call-center/ticket-categories', [DashboardCallCenterController::class, 'ticketCategories'])->name('backstreet.dashboards.callcenter.ticketcategories');
+    Route::get('/backstreet/dashboards/call-center/ticket-districts', [DashboardCallCenterController::class, 'ticketDistricts'])->name('backstreet.dashboards.callcenter.ticketdistricts');
+    Route::get('/backstreet/dashboards/call-center/ticket-subdistricts', [DashboardCallCenterController::class, 'ticketSubDistricts'])->name('backstreet.dashboards.callcenter.ticketsubdistricts');
+    Route::get('/backstreet/dashboards/call-center/chart-insident-hours', [DashboardCallCenterController::class, 'chatDataHours'])->name('backstreet.dashboards.callcenter.chartinsidenthours');
+    Route::get('/backstreet/dashboards/call-center/chart-call-status', [DashboardCallCenterController::class, 'callStatusChartData'])->name('backstreet.dashboards.callcenter.chartcallstatus');
+    Route::get('/backstreet/dashboards/call-center/ticket-distributions', [DashboardCallCenterController::class, 'ticketDistribution'])->name('backstreet.dashboards.callcenter.ticketdistributions');
 
     Route::prefix('/backstreet/wallboard')->controller(WallboardCallCenterController::class)->group(function () {
         Route::get('/get-summary-all', 'wallBoardGetSummaryCall');
