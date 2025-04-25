@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-<meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 
 <head>
     <title>@yield('title') - Jawara</title>
     <meta charset="utf-8" />
-    <link rel="shortcut icon" href="{{ asset('assets/media/logos/favicon.ico') }}" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" /> <!--end::Fonts-->
+    <link rel="shortcut icon" href="https://upload.wikimedia.org/wikipedia/commons/d/d7/Coat_of_arms_of_Bekasi.png" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
     <link href="{{ asset('assets/plugins/custom/datatables/datatables.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
@@ -42,7 +42,6 @@
     </script>
 
     <div class="d-flex flex-column flex-root app-root" id="kt_app_root">
-        <!--begin::Page-->
         <div class="app-page  flex-column flex-column-fluid " id="kt_app_page">
             <div class="wrapper d-flex flex-column flex-row-fluid" id="kt_wrapper">
                 <div id="kt_header" class="header  align-items-stretch" data-kt-sticky="true"

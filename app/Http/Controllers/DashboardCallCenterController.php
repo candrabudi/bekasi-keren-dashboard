@@ -160,12 +160,19 @@ class DashboardCallCenterController extends Controller
         ];
     }
 
-
     public function chatDataHours(Request $request)
     {
         $user = auth()->user();
         $departmentId = $user->detail->department_id ?? null;
-        [$start, $end] = $this->getDateRange($request->date_range);
+
+        $start = $request->query('start');
+        $end = $request->query('end');
+
+        if (!$start || !$end) {
+            $start = now()->subWeek()->startOfWeek()->format('Y-m-d');
+            $end = now()->subWeek()->endOfWeek()->format('Y-m-d');
+        }
+
         $ticketPerHourQuery = DB::table('tickets')
             ->selectRaw('HOUR(tickets.created_at) as hour, COUNT(*) as total')
             ->leftJoin('department_tickets', 'tickets.id', '=', 'department_tickets.ticket_id');
@@ -175,7 +182,12 @@ class DashboardCallCenterController extends Controller
         }
 
         if ($start && $end) {
-            $ticketPerHourQuery->whereBetween('tickets.created_at', [$start, $end]);
+            if ($start === $end) {
+                $ticketPerHourQuery->whereDate('tickets.created_at', $start);
+            } else {
+                $ticketPerHourQuery->whereDate('tickets.created_at', '>=', $start)
+                    ->whereDate('tickets.created_at', '<=', $end);
+            }
         }
 
         $ticketPerHour = $ticketPerHourQuery
@@ -196,11 +208,14 @@ class DashboardCallCenterController extends Controller
         ]);
     }
 
+
     public function callStatusChartData(Request $request)
     {
         $user = auth()->user();
         $departmentId = $user->detail->department_id ?? null;
-        [$start, $end] = $this->getDateRange($request->date_range);
+
+        $start = $request->query('start');
+        $end = $request->query('end');
 
         $query = DB::table('call_center_records')
             ->select(
@@ -209,12 +224,20 @@ class DashboardCallCenterController extends Controller
                 DB::raw("COUNT(*) as total")
             );
 
+        // Filter tanggal (tanpa whereBetween)
         if ($start && $end) {
-            $query->whereBetween('datetime_entry_queue', [$start, $end]);
+            if ($start === $end) {
+                $query->whereDate('datetime_entry_queue', $start);
+            } else {
+                $query->whereDate('datetime_entry_queue', '>=', $start)
+                    ->whereDate('datetime_entry_queue', '<=', $end);
+            }
         }
 
         if ($departmentId) {
-            $query->where('user_details.department_id', $departmentId);
+            $query->join('users', 'call_center_records.user_id', '=', 'users.id')
+                ->join('user_details', 'users.id', '=', 'user_details.user_id')
+                ->where('user_details.department_id', $departmentId);
         }
 
         $data = $query
@@ -222,7 +245,7 @@ class DashboardCallCenterController extends Controller
             ->orderBy('hour')
             ->get();
 
-        $hours = range(0, 24);
+        $hours = range(0, 23);
         $statuses = $data->pluck('status')->unique();
         $series = [];
 
@@ -240,6 +263,7 @@ class DashboardCallCenterController extends Controller
             'categories' => array_map(fn($h) => str_pad($h, 2, '0', STR_PAD_LEFT) . ':00', $hours),
         ]);
     }
+
 
 
 }
