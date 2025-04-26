@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('page-title', 'Data Tickets')
+@section('title', 'Data Menu')
+@section('page-title', 'Data Menu')
 @section('breadcrumb')
     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
         <li class="breadcrumb-item text-white opacity-75">

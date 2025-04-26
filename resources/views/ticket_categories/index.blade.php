@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'Ticket Categories')
-@section('page-title', 'Ticket Categories')
+@section('title', 'Kategori Insiden')
+    @section('page-title', 'Kategori Insiden')
 @section('breadcrumb')
     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
         <li class="breadcrumb-item text-white opacity-75">
@@ -18,7 +18,7 @@
             <span class="bullet bg-white opacity-75 w-5px h-2px"></span>
         </li>
         <li class="breadcrumb-item text-white opacity-75">
-            Ticket Categories
+            Kategori Insiden
         </li>
     </ul>
 @endsection

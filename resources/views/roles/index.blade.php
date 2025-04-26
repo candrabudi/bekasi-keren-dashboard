@@ -1,5 +1,6 @@
 @extends('layouts.app')
-@section('page-title', 'Data Tickets')
+@section('title', 'Data Role')
+@section('page-title', 'Data Role')
 @section('breadcrumb')
     <ul class="breadcrumb breadcrumb-separatorless fw-semibold fs-7 my-1">
         <li class="breadcrumb-item text-white opacity-75">
@@ -17,7 +18,7 @@
             <span class="bullet bg-white opacity-75 w-5px h-2px"></span>
         </li>
         <li class="breadcrumb-item text-white opacity-75">
-            Roles
+            Role
         </li>
     </ul>
 @endsection
