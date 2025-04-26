@@ -50,4 +50,8 @@ class Ticket extends Model
         return $this->hasMany(DepartmentTicket::class, 'ticket_id');
     }
 
+    public function insidentByDistrict()
+    {
+        return $this->hasMany(Ticket::class, 'district_id'); // Pastikan relasi ini sesuai dengan skema database Anda
+    }
 }

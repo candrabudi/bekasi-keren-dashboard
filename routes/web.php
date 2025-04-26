@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CallCenterController;
 use App\Http\Controllers\CallCenterRecordController;
 use App\Http\Controllers\CrawlCallCenterController;
 use App\Http\Controllers\DashboardCallCenterController;
@@ -33,15 +34,22 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/backstreet/wallboards/call-center', [DashboardCallCenterController::class, 'wallboardCallCenter'])->name('backstreet.wallboards.callcenter');
+    Route::get('/backstreet/call-center/maps', [CallCenterController::class, 'map'])->name('backstreet.callcenter.map');
+    Route::get('/backstreet/call-center/ticket-distributions', [CallCenterController::class, 'ticketDistribution'])->name('backstreet.callcenter.map');
 
-    Route::get('/backstreet/dashboards/call-center', [DashboardCallCenterController::class, 'dashboardCallCenter'])->name('backstreet.dashboards.callcenter');
-    Route::get('/backstreet/dashboards/call-center/count-reports', [DashboardCallCenterController::class, 'countReports'])->name('backstreet.dashboards.callcenter.countreports');
-    Route::get('/backstreet/dashboards/call-center/ticket-categories', [DashboardCallCenterController::class, 'ticketCategories'])->name('backstreet.dashboards.callcenter.ticketcategories');
-    Route::get('/backstreet/dashboards/call-center/ticket-districts', [DashboardCallCenterController::class, 'ticketDistricts'])->name('backstreet.dashboards.callcenter.ticketdistricts');
-    Route::get('/backstreet/dashboards/call-center/ticket-subdistricts', [DashboardCallCenterController::class, 'ticketSubDistricts'])->name('backstreet.dashboards.callcenter.ticketsubdistricts');
-    Route::get('/backstreet/dashboards/call-center/chart-insident-hours', [DashboardCallCenterController::class, 'chatDataHours'])->name('backstreet.dashboards.callcenter.chartinsidenthours');
-    Route::get('/backstreet/dashboards/call-center/chart-call-status', [DashboardCallCenterController::class, 'callStatusChartData'])->name('backstreet.dashboards.callcenter.chartcallstatus');
-    Route::get('/backstreet/dashboards/call-center/ticket-distributions', [DashboardCallCenterController::class, 'ticketDistribution'])->name('backstreet.dashboards.callcenter.ticketdistributions');
+    Route::prefix('backstreet/dashboards/call-center')
+        ->controller(DashboardCallCenterController::class)
+        ->name('backstreet.dashboards.callcenter.')
+        ->group(function () {
+            Route::get('/', 'dashboardCallCenter')->name('index');
+            Route::get('/count-reports', 'countReports')->name('countreports');
+            Route::get('/ticket-categories', 'ticketCategories')->name('ticketcategories');
+            Route::get('/ticket-districts', 'ticketDistricts')->name('ticketdistricts');
+            Route::get('/ticket-subdistricts', 'ticketSubDistricts')->name('ticketsubdistricts');
+            Route::get('/chart-insident-hours', 'chatDataHours')->name('chartinsidenthours');
+            Route::get('/chart-call-status', 'callStatusChartData')->name('chartcallstatus');
+            Route::get('/ticket-distributions', 'ticketDistribution')->name('ticketdistributions');
+        });
 
     Route::prefix('/backstreet/wallboard')->controller(WallboardCallCenterController::class)->group(function () {
         Route::get('/get-summary-all', 'wallBoardGetSummaryCall');
@@ -64,12 +72,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/insidents', 'index')->name('backstreet.tickets.index');
             Route::get('/insidents/{a}', 'detail')->name('backstreet.tickets.detail');
         });
-        
+
         Route::controller(TicketCategoryController::class)->group(function () {
             Route::get('/categories', 'index')->name('backstreet.tickets.categories.index');
             Route::get('/categories/data', 'getData')->name('backstreet.tickets.categories.data');
         });
-        
+
         Route::controller(CallCenterRecordController::class)->group(function () {
             Route::get('/call-records', 'index')->name('backstreet.callrecords.index');
         });
@@ -86,7 +94,7 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{role}', 'update')->name('update');
             Route::delete('/{role}', 'destroy')->name('destroy');
         });
-    
+
         Route::controller(UserManagementController::class)->prefix('users')->name('backstreet.users.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
@@ -95,7 +103,7 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/{a}/update', 'update')->name('update');
             Route::delete('/{a}/delete', 'destroy')->name('destroy');
         });
-    
+
         Route::controller(MenuController::class)->prefix('menus')->name('menus.')->group(function () {
             Route::get('/', 'index')->name('index');
             Route::get('/create', 'create')->name('create');
@@ -104,9 +112,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/{menu}/edit', 'edit')->name('edit');
             Route::put('/{menu}', 'update')->name('update');
             Route::delete('/{menu}', 'destroy')->name('destroy');
-        });    
+        });
     });
-    
+
 
     Route::get('/roles/{role}/access', [RoleAccessController::class, 'edit'])
         ->name('roles.access');

@@ -21,6 +21,12 @@
         </li>
     </ul>
 @endsection
+@section('partial-navbar')
+    <div class="d-flex align-items-center gap-3 mb-5">
+        <input type="text" id="kt_daterangepicker_1" class="form-control form-control-solid w-250px"
+            placeholder="Select Date Range" readonly>
+    </div>
+@endsection
 @section('content')
     <div class="card card-flush ">
         <div class="card-header mt-6">

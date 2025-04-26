@@ -3,200 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Emergency Report Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <title>Dashboard Cards</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #F9FAFB 0%, #E5E7EB 100%);
-            color: #374151;
+        .card-custom {
+            border-radius: 10px;
+            padding: 15px;
         }
-        .card {
-            background: #FFFFFF;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-radius: 16px;
+        .card-custom h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
         }
-        .card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1);
+        .card-custom p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: #6c757d;
         }
-        .timeline {
-            padding-left: 32px;
+        .text-success {
+            color: #28a745 !important;
         }
-        .timeline-item {
-            position: relative;
-            margin-bottom: 20px;
-        }
-        .timeline-point {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: 2px solid #FFFFFF;
-            box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
-            position: absolute;
-            left: -24px;
-            top: 4px;
-            z-index: 10;
-            transition: transform 0.3s ease;
-        }
-        .timeline-point:hover {
-            transform: scale(1.2);
-        }
-        .timeline-point.status-99 { background-color: #6EE7B7; } /* Selesai */
-        .timeline-point.status-1 { background-color: #93C5FD; } /* Aktif */
-        .timeline-point.status-0 { background-color: #D1D5DB; } /* Default */
-        .status-badge {
-            background: linear-gradient(90deg, #FCD34D, #FBBF24);
-            color: #1F2937;
-            font-weight: 500;
-            transition: transform 0.3s ease;
-        }
-        .status-badge:hover {
-            transform: scale(1.05);
-        }
-        .timeline-header {
-            display: flex;
-            flex-direction: column;
-            gap: 4px;
-        }
-        @media (max-width: 640px) {
-            .timeline {
-                padding-left: 28px;
-            }
-            .timeline-point {
-                width: 10px;
-                height: 10px;
-                left: -22px;
-                top: 3px;
-            }
+        .text-danger {
+            color: #dc3545 !important;
         }
     </style>
 </head>
 <body>
-    <div class="container mx-auto p-4 sm:p-6 max-w-7xl">
-        <h1 class="text-2xl sm:text-3xl font-semibold text-gray-900 mb-6 tracking-tight">Emergency Report Dashboard</h1>
-        
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-            <!-- Report Card 1 -->
-            <div class="card rounded-xl p-4 sm:p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
-                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Ticket: D250424081397865</h2>
-                    <span class="px-3 py-1 text-xs sm:text-sm font-medium status-badge rounded-full">Selesai Tanpa Eskalasi</span>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Report ID</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">612202504240708135</p>
+    <div class="container mt-4">
+        <div class="row g-3">
+            <!-- Card 1: Total Users -->
+            <div class="col-md-3">
+                <div class="card card-custom shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <i class="fas fa-users text-primary" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h3>89,935</h3>
+                            <p>Total users</p>
+                            <p>
+                                <i class="fas fa-arrow-up text-success me-1"></i> 10.2 
+                                <span class="text-success">+1.01% this week</span>
+                            </p>
+                        </div>
                     </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Department</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">DINKES</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Created By</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">call taker 4</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Created At</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">2025-04-24 07:08:13</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Updated At</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">2025-04-24 08:22:33</p>
-                    </div>
-                </div>
-                <div class="mb-4">
-                    <p class="text-xs sm:text-sm text-gray-500">Description</p>
-                    <p class="text-gray-700 text-sm sm:text-base">Penelpon membutuhkan ambulance untuk korban kecelakaan yang tidak sadarkan diri di jalan yang dilalui nya</p>
-                    <p class="text-gray-700 text-sm sm:text-base mt-1">Nomor warga ditempat: Yasmin - 0895337469401</p>
-                </div>
-                
-                <!-- Timeline -->
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">Activity Log</h3>
-                    <ul class="timeline">
-                        <li class="timeline-item">
-                            <span class="timeline-point status-99"></span>
-                            <div class="timeline-event">
-                                <div class="timeline-header">
-                                    <h6 class="text-sm sm:text-base font-semibold text-gray-900 mb-0">Selesai Tanpa Eskalasi</h6>
-                                    <small class="text-xs sm:text-sm text-gray-500">2025-04-24 08:22:33</small>
-                                </div>
-                                <p class="text-gray-600 text-sm mt-2">Notes: Tutup Tiket tanpa di eskalasi</p>
-                                <p class="text-gray-600 text-sm mt-1">By: User 37</p>
-                            </div>
-                        </li>
-                        <li class="timeline-item">
-                            <span class="timeline-point status-0"></span>
-                            <div class="timeline-event">
-                                <div class="timeline-header">
-                                    <h6 class="text-sm sm:text-base font-semibold text-gray-900 mb-0">Initial Report</h6>
-                                    <small class="text-xs sm:text-sm text-gray-500">2025-04-24 07:08:13</small>
-                                </div>
-                                <p class="text-gray-600 text-sm mt-2">Notes: Penelpon membutuhkan ambulance untuk korban kecelakaan yang tidak sadarkan diri di jalan yang dilalui nya. Nomor warga ditempat: Yasmin - 0895337469401</p>
-                                <p class="text-gray-600 text-sm mt-1">By: User 5</p>
-                            </div>
-                        </li>
-                    </ul>
                 </div>
             </div>
 
-            <!-- Report Card 2 -->
-            <div class="card rounded-xl p-4 sm:p-6">
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-2">
-                    <h2 class="text-lg sm:text-xl font-semibold text-gray-900">Ticket: D250424081397865</h2>
-                    <span class="px-3 py-1 text-xs sm:text-sm font-medium status-badge rounded-full">Aktif</span>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4">
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Report ID</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">662202504240708135</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Department</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">PMI</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Created By</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">call taker 4</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Created At</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">2025-04-24 07:08:13</p>
-                    </div>
-                    <div>
-                        <p class="text-xs sm:text-sm text-gray-500">Updated At</p>
-                        <p class="font-medium text-sm sm:text-base text-gray-900">2025-04-24 07:08:14</p>
+            <!-- Card 2: Total Products -->
+            <div class="col-md-3">
+                <div class="card card-custom shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <i class="fas fa-box text-primary" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h3>23,283.5</h3>
+                            <p>Total products</p>
+                            <p>
+                                <i class="fas fa-arrow-up text-success me-1"></i> 3.1 
+                                <span class="text-success">+0.49% this week</span>
+                            </p>
+                        </div>
                     </div>
                 </div>
-                <div class="mb-4">
-                    <p class="text-xs sm:text-sm text-gray-500">Description</p>
-                    <p class="text-gray-700 text-sm sm:text-base">Penelpon membutuhkan ambulance untuk korban kecelakaan yang tidak sadarkan diri di jalan yang dilalui nya</p>
-                    <p class="text-gray-700 text-sm sm:text-base mt-1">Nomor warga ditempat: Yasmin - 0895337469401</p>
+            </div>
+
+            <!-- Card 3: Total Users -->
+            <div class="col-md-3">
+                <div class="card card-custom shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <i class="fas fa-users text-primary" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h3>46,827</h3>
+                            <p>Total users</p>
+                            <p>
+                                <i class="fas fa-arrow-down text-danger me-1"></i> 2.56 
+                                <span class="text-danger">-0.91% this week</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
-                
-                <!-- Timeline -->
-                <div>
-                    <h3 class="text-base sm:text-lg font-semibold text-gray-900 mb-3">Activity Log</h3>
-                    <ul class="timeline">
-                        <li class="timeline-item">
-                            <span class="timeline-point status-0"></span>
-                            <div class="timeline-event">
-                                <div class="timeline-header">
-                                    <h6 class="text-sm sm:text-base font-semibold text-gray-900 mb-0">Initial Report</h6>
-                                    <small class="text-xs sm:text-sm text-gray-500">2025-04-24 07:08:13</small>
-                                </div>
-                                <p class="text-gray-600 text-sm mt-2">Notes: Penelpon membutuhkan ambulance untuk korban kecelakaan yang tidak sadarkan diri di jalan yang dilalui nya. Nomor warga ditempat: Yasmin - 0895337469401</p>
-                                <p class="text-gray-600 text-sm mt-1">By: User 5</p>
-                            </div>
-                        </li>
-                    </ul>
+            </div>
+
+            <!-- Card 4: Refunded -->
+            <div class="col-md-3">
+                <div class="card card-custom shadow-sm">
+                    <div class="d-flex align-items-center">
+                        <div class="me-2">
+                            <i class="fas fa-undo text-primary" style="font-size: 1.5rem;"></i>
+                        </div>
+                        <div>
+                            <h3>124,854</h3>
+                            <p>Refunded</p>
+                            <p>
+                                <i class="fas fa-arrow-up text-success me-1"></i> 7.2 
+                                <span class="text-success">+1.51% this week</span>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
