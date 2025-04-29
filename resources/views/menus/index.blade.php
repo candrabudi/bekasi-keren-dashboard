@@ -50,6 +50,44 @@
         </div>
 
         <div class="card-body pt-0">
+            @if (session('success'))
+                <div class="alert alert-dismissible bg-success d-flex flex-column flex-sm-row p-5 mb-10">
+                    <i class="ki-duotone ki-check-circle fs-2hx text-light me-4 mb-5 mb-sm-0">
+                        <span class="path1"></span><span class="path2"></span>
+                    </i>
+
+                    <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                        <h4 class="mb-2 light text-white">Success</h4>
+                        <span>{{ session('success') }}</span>
+                    </div>
+
+                    <button type="button"
+                        class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                        data-bs-dismiss="alert">
+                        <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                class="path2"></span></i>
+                    </button>
+                </div>
+            @endif
+            @if (session('error'))
+                <div class="alert alert-dismissible bg-danger d-flex flex-column flex-sm-row p-5 mb-10">
+                    <!-- Icon -->
+                    <i class="ki-duotone ki-exclamation-triangle fs-2hx text-light me-4 mb-5 mb-sm-0"></i>
+
+                    <div class="d-flex flex-column text-light pe-0 pe-sm-10">
+                        <h4 class="mb-2 light text-white">Error</h4>
+                        <span>{{ session('error') }}</span>
+                    </div>
+
+                    <button type="button"
+                        class="position-absolute position-sm-relative m-2 m-sm-0 top-0 end-0 btn btn-icon ms-sm-auto"
+                        data-bs-dismiss="alert">
+                        <i class="ki-duotone ki-cross fs-1 text-light"><span class="path1"></span><span
+                                class="path2"></span></i>
+                    </button>
+                </div>
+            @endif
+
             <div class="table-responsive">
                 <table class="table table-hover align-middle table-row-dashed fs-6 gy-5 mb-0" id="kt_permissions_table">
                     <thead>
@@ -70,8 +108,9 @@
                                     <a href="{{ route('menus.edit', $menu) }}" class="btn btn-sm btn-warning me-2">
                                         <i class="ki-duotone ki-pencil fs-5 me-1"></i> Edit
                                     </a>
-                
-                                    <form method="POST" action="{{ route('menus.destroy', $menu) }}" style="display:inline" onsubmit="return confirm('Delete this menu?')">
+
+                                    <form method="POST" action="{{ route('menus.destroy', $menu) }}" style="display:inline"
+                                        onsubmit="return confirm('Delete this menu?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-sm btn-danger">
@@ -83,7 +122,7 @@
                         @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>

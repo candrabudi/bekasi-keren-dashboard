@@ -39,21 +39,57 @@ class MenuController extends Controller
             'route' => 'nullable|string',
             'parent_id' => 'nullable|exists:menus,id',
         ]);
-
+    
+        $duplicateName = Menu::where('name', $request->name)
+            ->where('parent_id', $request->parent_id)
+            ->exists();
+    
+        if ($duplicateName) {
+            return redirect()->back()
+                ->withErrors(['name' => 'A menu with the same name already exists under this parent.'])
+                ->withInput();
+        }
+    
+        if ($request->filled('route')) {
+            $duplicateRoute = Menu::where('route', $request->route)->exists();
+            if ($duplicateRoute) {
+                return redirect()->back()
+                    ->withErrors(['route' => 'The route name is already used by another menu.'])
+                    ->withInput();
+            }
+        }
+    
         DB::transaction(function () use ($request) {
-            $menu = Menu::create($request->only('name', 'route', 'parent_id'));
+            Menu::create($request->only('name', 'route', 'parent_id'));
         });
-
+    
         return redirect()->route('menus.index')->with('success', 'Menu created.');
     }
-
-    public function edit(Menu $menu)
+    
+    
+    public function edit($id)
     {
+        $menu = Menu::find($id);
+    
+        if (!$menu) {
+            return redirect()->route('menus.index')
+                ->with('error', 'Menu not found.')
+                ->withInput();
+        }
+    
         $parents = Menu::whereNull('parent_id')->where('id', '!=', $menu->id)->get();
+        
         $permissions = Permission::all();
-
-        return view('menus.edit', compact('menu', 'parents'));
+        
+        if ($parents->isEmpty() || $permissions->isEmpty()) {
+            return redirect()->route('menus.index')
+                ->with('error', 'No parent menus or permissions found.')
+                ->withInput();
+        }
+    
+        return view('menus.edit', compact('menu', 'parents', 'permissions'));
     }
+    
 
     public function update(Request $request, Menu $menu)
     {
@@ -70,17 +106,22 @@ class MenuController extends Controller
         return redirect()->route('menus.index')->with('success', 'Menu updated.');
     }
 
-    public function destroy(Menu $menu)
+    public function destroy($a)
     {
-        $adminRole = Role::where('name', 'admin')->first();
-
+        $menu = Menu::find($a);
+    
+        if (!$menu) {
+            return redirect()->route('menus.index')
+                ->with('error', 'Menu not found.');
+        }
+    
         DB::table('menu_permission_role')
-            ->where('role_id', $adminRole->id)
             ->where('menu_id', $menu->id)
             ->delete();
-
+    
         $menu->delete();
-
+    
         return redirect()->route('menus.index')->with('success', 'Menu deleted.');
     }
+    
 }
