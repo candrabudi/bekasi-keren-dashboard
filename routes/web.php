@@ -6,6 +6,7 @@ use App\Http\Controllers\CallCenterRecordController;
 use App\Http\Controllers\CrawlCallCenterController;
 use App\Http\Controllers\DashboardCallCenterController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardOmniChannelController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\ReportDepartmentController;
 use App\Http\Controllers\RoleAccessController;
@@ -49,6 +50,17 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/chart-insident-hours', 'chatDataHours')->name('chartinsidenthours');
             Route::get('/chart-call-status', 'callStatusChartData')->name('chartcallstatus');
             Route::get('/ticket-distributions', 'ticketDistribution')->name('ticketdistributions');
+        });
+    
+        Route::prefix('backstreet/dashboards/omni-channel')
+        ->controller(DashboardOmniChannelController::class)
+        ->name('backstreet.dashboards.omnichannel.')
+        ->group(function () {
+            Route::get('/', 'dashboard')->name('index');
+            Route::get('/active-agent', 'activeAgent')->name('activeAgent');
+            Route::get('/conversations-summary', 'conversationsSummary')->name('conversationsSummary');
+            Route::get('/whatsapp-usage', 'whatsappUsage')->name('whatsappUsage');
+            Route::get('/agent-performance', 'agentPerformance')->name('agentPerformance');
         });
 
     Route::prefix('/backstreet/wallboard')->controller(WallboardCallCenterController::class)->group(function () {
